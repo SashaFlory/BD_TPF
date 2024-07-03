@@ -18,14 +18,18 @@ public class TriviaSelection : MonoBehaviour
     List<trivia> trivias = new List<trivia>();
     [SerializeField] TMP_Dropdown _dropdown;
 
+    public static int SelectedTriviaId { get; private set; } // Variable para almacenar el id de la trivia seleccionada
+    public static TriviaSelection Instance { get; private set; } // Propiedad estática para acceder a la instancia única de TriviaSelection
+
     public DatabaseManager databaseManager;
 
     async void Start()
     {
         clientSupabase = new Supabase.Client(supabaseUrl, supabaseKey);
-
         await SelectTrivias();
         PopulateDropdown();
+
+        Instance = this;
     }
 
     async Task SelectTrivias()
@@ -64,7 +68,11 @@ public class TriviaSelection : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
+      
+
         int selectedIndex = _dropdown.value;
+
+        SelectedTriviaId = trivias[selectedIndex].id;
         string selectedTrivia = _dropdown.options[selectedIndex].text;
 
         PlayerPrefs.SetInt("SelectedIndex", selectedIndex+1);

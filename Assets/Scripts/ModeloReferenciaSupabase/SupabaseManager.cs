@@ -6,15 +6,22 @@ using Postgrest.Models;
 using TMPro;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class SupabaseManager : MonoBehaviour
 
 {
-
     [Header("Campos de Interfaz")]
     [SerializeField] TMP_InputField _userIDInput;
     [SerializeField] TMP_InputField _userPassInput;
     [SerializeField] TextMeshProUGUI _stateText;
+
+    [SerializeField] Button _jugarButton;
+
+    public static int CurrentUserId { get; private set; }
+    public static string CurrentUsername { get; private set; }
+
+    public static SupabaseManager Instance { get; private set; }
 
     string supabaseUrl = "https://cmueityyxnpdpsrgdbpv.supabase.co"; //COMPLETAR
     string supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtdWVpdHl5eG5wZHBzcmdkYnB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5NTA3MDIsImV4cCI6MjAzNTUyNjcwMn0.GAgGLxEq_rWy_HLxlkkuNyegotlM6Zs2N5UzidRfn9w"; //COMPLETAR
@@ -23,6 +30,11 @@ public class SupabaseManager : MonoBehaviour
 
     private usuarios _usuarios = new usuarios();
 
+    public void Start(){
+        Instance = this;
+        
+        _jugarButton.gameObject.SetActive(false);
+    }
 
     public async void UserLogin()
     {
@@ -36,26 +48,40 @@ public class SupabaseManager : MonoBehaviour
             .Get();
         Debug.Log(test_response.Content);
 
-
-
         // filtro seg�n datos de login
         var login_password = await clientSupabase
           .From<usuarios>()
-          .Select("password")
+          .Select("id, password")
           .Where(usuarios => usuarios.username == _userIDInput.text)
           .Get();
 
 
-        if (login_password.Model.password.Equals(_userPassInput.text))
+        // Verificar si login_password tiene resultados
+        if (login_password.Models.Count > 0)
         {
-            print("LOGIN SUCCESSFUL");
-            _stateText.text = "LOGIN SUCCESSFUL";
-            _stateText.color = Color.green;
+            var usuario = login_password.Models[0];
+            if (usuario.password.Equals(_userPassInput.text))
+            {
+                print("LOGIN SUCCESSFUL");
+                _stateText.text = "LOGIN SUCCESSFUL";
+                _stateText.color = Color.green;
+                SupabaseManager.CurrentUsername = _userIDInput.text; // Guardar el nombre de usuario actual
+
+                SupabaseManager.CurrentUserId = usuario.id;  // Guardar el id del usuario actual
+
+                _jugarButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                print("WRONG PASSWORD");
+                _stateText.text = "WRONG PASSWORD";
+                _stateText.color = Color.red;
+            }
         }
         else
         {
-            print("WRONG PASSWORD");
-            _stateText.text = "WRONG PASSWORD";
+            print("USER NOT FOUND");
+            _stateText.text = "USER NOT FOUND";
             _stateText.color = Color.red;
         }
     }
@@ -102,6 +128,11 @@ public class SupabaseManager : MonoBehaviour
         {
             _stateText.text = "Usuario Correctamente Ingresado";
             _stateText.color = Color.green;
+
+            _jugarButton.gameObject.SetActive(true);
+
+            SupabaseManager.CurrentUserId = nuevoId;
+
         }
         else
         {
@@ -109,7 +140,12 @@ public class SupabaseManager : MonoBehaviour
             _stateText.text = resultado.ResponseMessage.ToString();
             _stateText.color = Color.green;
         }
-
     }
+
+  public void ChangeScene(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
 }
 
