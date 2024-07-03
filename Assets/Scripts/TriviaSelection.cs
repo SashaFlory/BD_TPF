@@ -10,8 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class TriviaSelection : MonoBehaviour
 {
-    string supabaseUrl = "url"; //COMPLETAR
-    string supabaseKey = "key"; //COMPLETAR
+    string supabaseUrl = "https://cmueityyxnpdpsrgdbpv.supabase.co"; //COMPLETAR
+    string supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNtdWVpdHl5eG5wZHBzcmdkYnB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk5NTA3MDIsImV4cCI6MjAzNTUyNjcwMn0.GAgGLxEq_rWy_HLxlkkuNyegotlM6Zs2N5UzidRfn9w"; //COMPLETAR
 
     Supabase.Client clientSupabase;
 
@@ -41,7 +41,7 @@ public class TriviaSelection : MonoBehaviour
             //Debug.Log("Trivias seleccionadas: " + trivias.Count);
             //foreach (var trivia in trivias)
             //{
-            //    Debug.Log("ID: " + trivia.id + ", Categoría: " + trivia.category);
+            //    Debug.Log("ID: " + trivia.id + ", Categorï¿½a: " + trivia.category);
             //}
         }
 

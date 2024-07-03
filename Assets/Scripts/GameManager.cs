@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     //public TriviaManager triviaManager;
 
-    public List<question> responseList; //lista donde guardo la respuesta de la query hecha en la pantalla de selección de categoría
+    public List<question> responseList; //lista donde guardo la respuesta de la query hecha en la pantalla de selecciï¿½n de categorï¿½a
 
     public int currentTriviaIndex = 0;
 
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     public bool queryCalled;
 
-    private int _points;
+    public int score;
 
     private int _maxAttempts = 10;
 
@@ -45,9 +45,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
         StartTrivia();
-
         queryCalled = false;
 
     }
@@ -79,7 +77,7 @@ public class GameManager : MonoBehaviour
             _answers.Add(GameManager.Instance.responseList[randomQuestionIndex].Answer2);
             _answers.Add(GameManager.Instance.responseList[randomQuestionIndex].Answer3);
 
-            // la mixeo con el método Shuffle (ver script Shuffle List)
+            // la mixeo con el mï¿½todo Shuffle (ver script Shuffle List)
 
             _answers.Shuffle();
 
@@ -101,7 +99,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void Update()
+    public void Update()
     {
         
     }
