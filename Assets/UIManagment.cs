@@ -34,7 +34,6 @@ public class UIManagment : MonoBehaviour
 
     public int score;
 
-
     void Awake()
     {
         // Configura la instancia
@@ -50,14 +49,12 @@ public class UIManagment : MonoBehaviour
 
     }
 
-
     private void Start()
     {
+        _gameoverPanel.SetActive(false);
         queryCalled = false;
 
         _originalButtonColor = _buttons[0].GetComponent<Image>().color;
-
-        _gameoverPanel.SetActive(false);
 
         currentTime = startingTime;
         score = 0;
@@ -105,9 +102,8 @@ public class UIManagment : MonoBehaviour
             
             ChangeButtonColor(buttonIndex, Color.red);
             Invoke("RestoreButtonColor", 2f);
-            _gameoverPanel.SetActive(true);
-            _menuButton.onClick.AddListener(OnMenuButtonClicked);
 
+            _gameoverPanel.SetActive(true);
         }
 
     }
@@ -133,21 +129,6 @@ public class UIManagment : MonoBehaviour
         currentTime = startingTime;
     }
 
-    void OnMenuButtonClicked()
-    {
-        // Reiniciar variables o realizar limpieza si es necesario
-        score = 0;
-        currentTime = startingTime;
-        _gameoverPanel.SetActive(false);
-
-        Destroy(GameManager.Instance);
-        Destroy(UIManagment.Instance);
-
-        // Cargar la escena que deseas
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        
-    }
-    
     public void PreviousScene()
     {
         Destroy(GameManager.Instance);

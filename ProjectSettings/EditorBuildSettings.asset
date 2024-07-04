@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinScene.unity
     guid: d7f186a53828c7248b2428a2931277f3
+  - enabled: 1
+    path: Assets/Scenes/RankingIntento.unity
+    guid: 2d1702ccc4d83a94593d1ce147daa605
   m_configObjects: {}

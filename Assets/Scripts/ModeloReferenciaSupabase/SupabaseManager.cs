@@ -55,7 +55,6 @@ public class SupabaseManager : MonoBehaviour
           .Where(usuarios => usuarios.username == _userIDInput.text)
           .Get();
 
-
         // Verificar si login_password tiene resultados
         if (login_password.Models.Count > 0)
         {
