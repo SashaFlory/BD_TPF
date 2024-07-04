@@ -71,6 +71,7 @@ public class UIManagment : MonoBehaviour
         if (currentTime <= 0){
             currentTime = 0;
             //_gameoverPanel.SetActive(true);
+            SceneManager.LoadScene("GameoverScene");
         }
 
         //print(currentTime);
@@ -103,7 +104,8 @@ public class UIManagment : MonoBehaviour
             ChangeButtonColor(buttonIndex, Color.red);
             Invoke("RestoreButtonColor", 2f);
 
-            _gameoverPanel.SetActive(true);
+            //_gameoverPanel.SetActive(true);
+            SceneManager.LoadScene("GameoverScene");
         }
 
     }
