@@ -33,6 +33,7 @@ public class UIManagment : MonoBehaviour
     public float startingTime = 10f;
 
     public int score;
+    private bool preguntaRespondida;
 
     void Awake()
     {
@@ -58,6 +59,7 @@ public class UIManagment : MonoBehaviour
 
         currentTime = startingTime;
         score = 0;
+        preguntaRespondida = false;
     }
 
     void Update()
@@ -70,7 +72,11 @@ public class UIManagment : MonoBehaviour
         currentTime -= 1 * Time.deltaTime;
         if (currentTime <= 0){
             currentTime = 0;
-            //_gameoverPanel.SetActive(true);
+        }
+
+        if (currentTime <= 0 && !preguntaRespondida){
+            Destroy(GameManager.Instance);
+            Destroy(UIManagment.Instance);
             SceneManager.LoadScene("GameoverScene");
         }
 
@@ -81,21 +87,22 @@ public class UIManagment : MonoBehaviour
     }
     public void OnButtonClick(int buttonIndex)
     {
-        string selectedAnswer = _buttons[buttonIndex].GetComponentInChildren<TextMeshProUGUI>().text;
+        if (preguntaRespondida) return;
+        preguntaRespondida = true;
 
+        string selectedAnswer = _buttons[buttonIndex].GetComponentInChildren<TextMeshProUGUI>().text;
         _correctAnswer = GameManager.Instance.responseList[GameManager.Instance.randomQuestionIndex].CorrectOption;
 
         if (selectedAnswer == _correctAnswer)
         {
             score += Mathf.RoundToInt(currentTime);
-            print(score);
-            //Debug.Log("score:", score);
+            Debug.Log("score:" + score);
             Debug.Log("�Respuesta correcta!");
             ChangeButtonColor(buttonIndex, Color.green);
             Invoke("RestoreButtonColor", 2f);
             GameManager.Instance._answers.Clear();
             Invoke("NextAnswer", 2f);
-            currentTime = 0;
+            currentTime = startingTime;
         }
         else
         {
@@ -104,7 +111,8 @@ public class UIManagment : MonoBehaviour
             ChangeButtonColor(buttonIndex, Color.red);
             Invoke("RestoreButtonColor", 2f);
 
-            //_gameoverPanel.SetActive(true);
+            Destroy(GameManager.Instance);
+            Destroy(UIManagment.Instance);
             SceneManager.LoadScene("GameoverScene");
         }
 
@@ -129,6 +137,8 @@ public class UIManagment : MonoBehaviour
     {
         queryCalled = false;
         currentTime = startingTime;
+
+        preguntaRespondida = false;
     }
 
     public void PreviousScene()
