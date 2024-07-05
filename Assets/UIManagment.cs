@@ -12,7 +12,6 @@ public class UIManagment : MonoBehaviour
     [SerializeField] TextMeshProUGUI _scoreText;
     [SerializeField] TextMeshProUGUI _timerText;
     
-    [SerializeField] GameObject _gameoverPanel;
     [SerializeField] Button _menuButton;
 
     string _correctAnswer;
@@ -52,7 +51,6 @@ public class UIManagment : MonoBehaviour
 
     private void Start()
     {
-        _gameoverPanel.SetActive(false);
         queryCalled = false;
 
         _originalButtonColor = _buttons[0].GetComponent<Image>().color;
